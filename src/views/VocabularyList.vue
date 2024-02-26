@@ -17,7 +17,7 @@ import * as _jvocab from '@/ts/JlptVocab'
   <div>User {{ $route.params.level }}</div>
 
   <RouterView />
-  <div :set="(_page = sortedData)">
+  <div :set="(_page = filteredListLvl(sortedData))">
     <div>
       <table class="vocabulary-list">
         <thead>
@@ -51,7 +51,7 @@ import * as _jvocab from '@/ts/JlptVocab'
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in paginate(sortedData)" :key="item.id">
+          <tr v-for="item in paginate(filteredListLvl(sortedData))" :key="item.id">
             <td class="level" id="level">N{{ item.level }}</td>
             <td>
               <!-- <div class="vocabulary-furigana"></div> -->
