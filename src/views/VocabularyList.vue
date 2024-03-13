@@ -1,21 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import * as _jvocab from '@/ts/JlptVocab'
+
+import navLevel from '../components/navLevel.vue'
 </script>
 
 <template>
-  <div class="menu">
-    <nav>
-      <RouterLink to="/vocabulary/all/1">All</RouterLink>
-      <RouterLink to="/vocabulary/N5/1">N5</RouterLink>
-      <RouterLink to="/vocabulary/N4/1">N4</RouterLink>
-      <RouterLink to="/vocabulary/N3/1">N3</RouterLink>
-      <RouterLink to="/vocabulary/N2/1">N2</RouterLink>
-      <RouterLink to="/vocabulary/N1/1">N1</RouterLink>
-    </nav>
-  </div>
-  <div>User {{ $route.params.level }}</div>
-
+  <div>User {{ $route.params.opt }}</div>
+  <navLevel />
   <RouterView />
   <div :set="(_page = filteredListLvl(sortedData))">
     <div>
@@ -26,7 +18,14 @@ import * as _jvocab from '@/ts/JlptVocab'
               <RouterLink
                 @click="doSort('level')"
                 class="page"
-                :to="'/vocabulary/' + $route.params.level + '/' + parseInt(this.$route.params.page)"
+                :to="
+                  '/vocabulary/' +
+                  $route.params.opt +
+                  '/' +
+                  $route.params.word +
+                  '/' +
+                  parseInt(this.$route.params.page)
+                "
                 >LEVEL <span v-if="sort.field == 'level'">({{ sort.desc ? 'desc' : 'asc' }})</span>
               </RouterLink>
             </th>
@@ -34,7 +33,14 @@ import * as _jvocab from '@/ts/JlptVocab'
               <RouterLink
                 @click="doSort('furigana')"
                 class="page"
-                :to="'/vocabulary/' + $route.params.level + '/' + parseInt(this.$route.params.page)"
+                :to="
+                  '/vocabulary/' +
+                  $route.params.opt +
+                  '/' +
+                  $route.params.word +
+                  '/' +
+                  parseInt(this.$route.params.page)
+                "
                 >Japanese
                 <span v-if="sort.field == 'furigana'">({{ sort.desc ? 'desc' : 'asc' }})</span>
               </RouterLink>
@@ -43,7 +49,14 @@ import * as _jvocab from '@/ts/JlptVocab'
               <RouterLink
                 @click="doSort('meaning')"
                 class="page"
-                :to="'/vocabulary/' + $route.params.level + '/' + parseInt(this.$route.params.page)"
+                :to="
+                  '/vocabulary/' +
+                  $route.params.opt +
+                  '/' +
+                  $route.params.word +
+                  '/' +
+                  parseInt(this.$route.params.page)
+                "
                 >Meaning
                 <span v-if="sort.field == 'meaning'">({{ sort.desc ? 'desc' : 'asc' }})</span>
               </RouterLink>
@@ -70,7 +83,7 @@ import * as _jvocab from '@/ts/JlptVocab'
       <RouterLink
         @click="scrollToTop()"
         class="page"
-        :to="'/vocabulary/' + $route.params.level + '/1'"
+        :to="'/vocabulary/' + $route.params.opt + '/all/1'"
         >«</RouterLink
       >
 
@@ -79,7 +92,7 @@ import * as _jvocab from '@/ts/JlptVocab'
         class="page"
         :to="
           '/vocabulary/' +
-          $route.params.level +
+          $route.params.opt +
           '/' +
           Math.max(parseInt(parseInt(this.$route.params.page) - 1), 1)
         "
@@ -90,7 +103,7 @@ import * as _jvocab from '@/ts/JlptVocab'
         <RouterLink
           @click="scrollToTop()"
           class="page"
-          :to="'/vocabulary/' + $route.params.level + '/' + parseInt(item)"
+          :to="'/vocabulary/' + $route.params.opt + '/' + $route.params.word + '/' + parseInt(item)"
         >
           {{ item }}
         </RouterLink>
@@ -101,7 +114,7 @@ import * as _jvocab from '@/ts/JlptVocab'
         class="page"
         :to="
           '/vocabulary/' +
-          this.$route.params.level +
+          this.$route.params.opt +
           '/' +
           Math.min(parseInt(parseInt(this.$route.params.page) + 1), _size)
         "
@@ -111,7 +124,7 @@ import * as _jvocab from '@/ts/JlptVocab'
       <RouterLink
         @click="scrollToTop()"
         class="page"
-        :to="'/vocabulary/' + $route.params.level + '/' + _size"
+        :to="'/vocabulary/' + $route.params.opt + '/' + $route.params.word + '/' + _size"
       >
         »
       </RouterLink>
@@ -137,6 +150,10 @@ export default {
           }
         })
 
+      if (this.sort.field == 'furigana') {
+        return this.listVocab.concat().sort(_jvocab.sortFurigana)
+      }
+
       return this.listVocab.concat().sort((a, b) => {
         if (this.sort.desc) {
           return this.cleanField(a[this.sort.field]) > this.cleanField(b[this.sort.field]) ? -1 : 1
@@ -148,7 +165,6 @@ export default {
   },
   data() {
     return {
-      search: '',
       pageSize: 20,
       sort: {
         field: '',
@@ -158,8 +174,8 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.sort) {
-      const savedSort = JSON.parse(localStorage.getItem('sort'))
+    if (sessionStorage.sort) {
+      const savedSort = JSON.parse(sessionStorage.getItem('sort'))
       console.log(savedSort)
       this.sort = savedSort
     }
@@ -167,22 +183,31 @@ export default {
   watch: {
     sort: {
       handler: function (newSort) {
-        // Save to local storage when sort object changes
-        //localStorage.setItem('sort', JSON.stringify(newSort));
-        console.log('------------------------NEWNAME----------------')
-        localStorage.setItem('sort', JSON.stringify(newSort))
-        //console.log(newSort.desc)
-        //console.log(newSort.field)
+        sessionStorage.setItem('sort', JSON.stringify(newSort))
       },
       deep: true // Watch nested properties inside sort object
     }
   },
   methods: {
     filteredListLvl: function (list: any[]) {
-      if (this.$route.params.level == 'all') return list
+      if (this.$route.params.opt == 'all') return list
+      if (this.$route.params.opt == 'search') return this.filteredList(list)
       return list.filter((val) => {
-        return val.level == this.$route.params.level[1]
+        return val.level == this.$route.params.opt[1]
       })
+    },
+    filteredList: function (list: any[]) {
+      const opt = this.$route.params.word
+      return list.filter(
+        (val: { romaji: string; furigana: string; word: string; meaning: string }) => {
+          return (
+            val.romaji.includes(opt) ||
+            val.furigana.includes(opt) ||
+            val.word.includes(opt) ||
+            val.meaning.includes(opt)
+          )
+        }
+      )
     },
     cleanField(field: String) {
       return field
@@ -211,6 +236,7 @@ export default {
       return Math.ceil(this.filteredListLvl(this.listVocab).length / this.pageSize)
     },
     doSort(field: string) {
+      console.log('dosort :')
       console.log(field)
       console.log(this.sort.field)
       if (field == this.sort.field) {
@@ -261,8 +287,8 @@ export default {
         console.log(toParams)
         console.log('previousParams: ' + previousParams)
         console.log(previousParams)
-        console.log(this.$route.params.level)
-        console.log(this.$route.params.level === undefined)
+        console.log(this.$route.params.opt)
+        console.log(this.$route.params.opt === undefined)
       }
     )
   }

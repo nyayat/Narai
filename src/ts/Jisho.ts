@@ -1,6 +1,6 @@
 import JishoAPI from 'unofficial-jisho-api'
 
-const jisho = new JishoAPI()
+const jisho = new JishoAPI({ proxy: 'https://cors-anywhere.herokuapp.com/' })
 
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 
@@ -21,11 +21,21 @@ async function searchKanji(kanji: string) {
 }
 
 async function searchExemple(word: string) {
-  const url = proxy + jisho.getUriForExampleSearch(word)
+  /* console.log('on search')
+  /* const url = jisho.getUriForExampleSearch(word)
+  console.log('on va await') 
   const response = await fetch(url)
+  console.log('on a get uri')
   const json = jisho.parseExamplePageHtml(await response.text(), word)
   console.log(json.results)
-  return json.results
+  console.log('on a parse example')
+  return json.results */
+
+  return await jisho.searchForExamples(word).then((result) => {
+    console.log('result')
+    console.log(result)
+    return result.results
+  })
 }
 
 export { jisho, search, searchKanji, searchExemple }
