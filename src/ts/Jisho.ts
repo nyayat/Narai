@@ -1,6 +1,6 @@
 import JishoAPI from 'unofficial-jisho-api'
 
-const jisho = new JishoAPI({ proxy: 'https://cors-anywhere.herokuapp.com/' })
+const jisho = new JishoAPI()
 
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 
