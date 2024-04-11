@@ -1,0 +1,169 @@
+@import './variable.scss';
+
+.container_list {
+  background-color: $dark-purple;
+  border: 5px solid $dark-purple;
+
+  overflow-y: hidden;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter_button {
+  color: $bright-purple;
+  font-size: 10px;
+  padding: 7px;
+  text-decoration: none;
+  &:focus {
+    color: $red;
+  }
+  &:hover {
+    color: $red;
+  }
+}
+
+.card {
+  text-align: center;
+  border-bottom: 1px solid $light-red;
+  padding: 5px 0px;
+  /* width: 50%; */
+  flex-basis: 50%;
+  &:first-child {
+    border-top: 1px solid $light-red;
+  }
+
+  &:hover {
+    background-color: $light-pink;
+
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    & > div:not(.tag) {
+      color: $bright-purple;
+      -webkit-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+    }
+    .tag {
+      color: $light-purple;
+      background-color: $pink;
+      -webkit-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+    }
+  }
+}
+
+.nav_level {
+  flex-basis: 100%;
+  flex-grow: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.item {
+  padding: 10px;
+}
+
+.pagination {
+  padding-bottom: 2px;
+  padding-top: 2px;
+  flex-basis: 100%;
+
+  padding: 5px;
+
+  justify-content: center;
+
+  height: 20px;
+  .page {
+    font-size: 12.5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: $bright-purple;
+    &:focus {
+      color: $red;
+    }
+  }
+}
+
+rt {
+  font-size: 13.5px;
+}
+
+.lvl {
+  text-align: center;
+  height: 45px;
+  width: 45px;
+  color: $light-pink;
+}
+
+.content_div {
+  h2 {
+    font-family: 'DotGothic16';
+    font-weight: 800;
+    font-size: 30px;
+    color: $red;
+    padding: 10px;
+    rt {
+      color: $red;
+    }
+    ruby {
+      color: $bright-purple;
+    }
+  }
+}
+
+.show_container {
+  border-bottom: 5px solid $dark-purple;
+  border-right: 0px;
+  padding-top: 0px;
+}
+
+.details {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.details :where(header, footer) {
+  padding: 20px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.scroll-container {
+  contain: size;
+  overflow-y: auto;
+  scrollbar-color: $red transparent;
+
+  border-bottom: 1px solid $light-red;
+  border-top: 1px solid $light-red;
+  margin: 0px 20px;
+}
+.sentences {
+  height: 120px;
+  overflow: scroll;
+
+  .card {
+    text-align: left;
+    margin: 0px 20px;
+  }
+}
+
+@media (min-width: 40rem) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sentences {
+    overflow: scroll;
+    height: 250px;
+  }
+
+  .show_container {
+    border-bottom: 0px;
+    border-right: 5px solid $dark-purple;
+  }
+}

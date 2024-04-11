@@ -1,4 +1,5 @@
 const url_vocab = 'https://jlpt-vocab-api.vercel.app/api/words'
+import * as JISHO from './Jisho.ts'
 
 let _vocab
 function sortFurigana(
@@ -10,14 +11,14 @@ function sortFurigana(
   return a_tmp > b_tmp
 }
 
-/* 
-function sortEnglish(a: { meaning: string }, b: { meaning: string }) {
-  return a.meaning > b.meaning
+function sortFuriganaDesc(
+  a: { furigana: string; word: string },
+  b: { furigana: string; word: string }
+) {
+  const a_tmp = a.furigana == '' ? a.word : a.furigana
+  const b_tmp = b.furigana == '' ? b.word : b.furigana
+  return a_tmp < b_tmp
 }
-
-function sortLevel(a: { level: string }, b: { level: string }) {
-  return a.level > b.level
-} */
 
 function clean() {
   console.log('cleaaaaaan')
@@ -42,6 +43,7 @@ async function allVocabulary() {
   _vocab = json.sort(sortFurigana)
   _vocab.shift()
   _vocab = clean()
+
   return _vocab
 }
 
@@ -58,4 +60,4 @@ async function searchRandom() {
 const listVoc = await allVocabulary()
 console.log(listVoc.length)
 console.log("c'était la taille")
-export { searchRandom, _vocab, allVocabulary, listVoc, sortFurigana }
+export { searchRandom, _vocab, allVocabulary, listVoc, sortFurigana, sortFuriganaDesc }
