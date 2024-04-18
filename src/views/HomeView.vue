@@ -9,9 +9,19 @@ import navLevel from '../components/navLevel.vue'
     <div class="nav_level"><navLevel /></div>
 
     <article class="container">
-      <!---->
-      <section class="details">
+      <!--style="display: flex; align-items: center"-->
+
+      <div class="show_container" style="display: flex; align-items: center">
+        <div class="center" style="padding: 20px">
+          Use the vocabulary tab to review all the JLPT vocabulary. You'll find sample sentences to
+          help you!
+        </div>
+      </div>
+      <section class="details" style="display: flex; align-items: center">
         <!---->
+        <div style="padding: 20px">
+          Soon, in the quiz tab, you'll be able to practice vocabulary and its meanings.
+        </div>
       </section>
     </article>
   </div>

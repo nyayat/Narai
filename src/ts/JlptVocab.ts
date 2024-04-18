@@ -1,7 +1,7 @@
 const url_vocab = 'https://jlpt-vocab-api.vercel.app/api/words'
-import * as JISHO from './Jisho.ts'
+import * as _tangorin from './TangorinAPI.js'
 
-let _vocab: any[]
+let vocab: any[]
 function sortFurigana(
   a: { furigana: string; word: string },
   b: { furigana: string; word: string }
@@ -24,7 +24,7 @@ function clean() {
   console.log('cleaaaaaan')
   const kana = /[\u30a0-\u30ff\u3040-\u309f]/g
   const kanji = /[\u4E00-\u9FAF]/g
-  return _vocab
+  return vocab
     .filter((val: { word: string }) => {
       const tmp = val.word.replace(kana, '').replace(kanji, '')
       return tmp.length == 0
@@ -34,40 +34,18 @@ function clean() {
     })
 }
 
-async function cleanSentences() {
-  console.log('cleaaaaaan sentences')
-  for (let i = 0; i < _vocab.length; i++) {
-    _vocab[i].sentences = await JISHO.searchExemple(_vocab[i].word)
-  }
-  console.log(_vocab[0].sentences)
-  return _vocab
-}
-
 async function allVocabulary() {
   //jlpt-vocab-api.vercel.app/api/words/all
   const url_level = url_vocab + '/all'
   console.log(url_level)
   const response = await fetch(url_level)
   const json = await response.json()
-  _vocab = json.sort(sortFurigana)
-  _vocab.shift()
-  _vocab = clean()
-  /* _vocab = await cleanSentences() */
+  vocab = json.sort(sortFurigana)
+  vocab.shift()
+  vocab = clean()
 
-  return _vocab
+  return vocab
 }
 
-async function searchRandom() {
-  const url_random = url_vocab + '/random'
-  console.log(url_random)
-
-  const response = await fetch(url_random)
-  const json = await response.json()
-  //_vocab = json.sort(sortFurigana)
-}
-
-//await searchLevel(Number(Data.lvl))
 const listVoc = await allVocabulary()
-console.log(listVoc.length)
-console.log("c'était la taille")
-export { searchRandom, _vocab, allVocabulary, listVoc, sortFurigana, sortFuriganaDesc }
+export { listVoc, sortFurigana, sortFuriganaDesc }

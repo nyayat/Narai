@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import navBar from '@/components/navBar.vue'
-import HelloWorld from './components/HelloWorld.vue'
+import footerComp from '@/components/footerComp.vue'
 
 const search = defineModel()
 </script>
@@ -16,6 +16,8 @@ const search = defineModel()
   </header>
 
   <RouterView />
+
+  <footerComp />
 </template>
 
 <style scoped></style>

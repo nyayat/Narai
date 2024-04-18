@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import * as _jvocab from '@/ts/JlptVocab'
-
-import * as _jisho from '@/ts/Jisho'
+import * as _tangorin from '@/ts/JlptVocab'
+import * as _jisho from '@/ts/TangorinAPI'
 
 import { ref } from 'vue'
 </script>
@@ -68,7 +67,7 @@ export default {
       },
       count: ref(0),
 
-      listVocab: _jvocab.listVoc
+      listVocab: _tangorin.listVoc
     }
   },
   mounted() {
@@ -93,17 +92,17 @@ export default {
       let shuffled = this.listVocab.sort(function () {
         return 0.5 - Math.random()
       })
-      let _tmp = shuffled.slice(0, this.quiz.nb_question)
-      let _qa = []
+      let tmp = shuffled.slice(0, this.quiz.nb_question)
+      let qa = []
       console.log(this.quiz.questions)
       for (let i = 0; i < this.quiz.nb_question; i++) {
-        _qa[i] = this.selectQuestion(
+        qa[i] = this.selectQuestion(
           this.quiz.opt[Math.floor(Math.random() * this.quiz.opt.length)],
-          _tmp[i]
+          tmp[i]
         )
-        this.quiz.questions[i] = _qa[i].question
-        this.quiz.answers[i] = _qa[i].answer
-        this.quiz.sentences[i] = await _jisho.searchExemple(_tmp[i].word)
+        this.quiz.questions[i] = qa[i].question
+        this.quiz.answers[i] = qa[i].answer
+        this.quiz.sentences[i] = await _jisho.searchExemple(tmp[i].word)
 
         this.quiz.sentences[i] =
           this.quiz.sentences[i].length == 0 ? '' : this.quiz.sentences[i][0].kanji
@@ -119,13 +118,15 @@ export default {
       let res = []
       console.log('word:')
       console.log(word.word)
-      const _word = word.word
-      const _meaning = word.meaning
-      const _reading = word.furigana.length == 0 ? _word : word.furigana
+      const __word = word.word
+      const __meaning = word.meaning
+      const __reading = word.furigana.length == 0 ? __word : word.furigana
       /* question: "What is the reading of" */
-      if (type == 'reading') res = { question: 'What is the reading of ' + _word, answer: _reading }
-      if (type == 'meaning') res = { question: 'What is the meaning of ' + _word, answer: _meaning }
-      if (type == 'cloze') res = { question: 'Complete ' + _word, answer: _reading }
+      if (type == 'reading')
+        res = { question: 'What is the reading of ' + __word, answer: __reading }
+      if (type == 'meaning')
+        res = { question: 'What is the meaning of ' + __word, answer: __meaning }
+      if (type == 'cloze') res = { question: 'Complete ' + __word, answer: __reading }
 
       return res
     }

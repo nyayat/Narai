@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as _jisho from '@/ts/Jisho'
+import * as _tangorin from '@/ts/TangorinAPI'
 </script>
 
 <template>
@@ -43,7 +43,6 @@ export default {
   watch: {
     itemShowed: async function (newVal, oldVal) {
       console.log('changement')
-      _jisho.search(this.itemShowed.word)
     }
   }
 }

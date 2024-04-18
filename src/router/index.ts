@@ -12,11 +12,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
-    },
-    {
       path: '/vocabulary/:opt/:page',
       name: 'vocabulary-level',
       component: VocabList
@@ -26,10 +21,16 @@ const router = createRouter({
       name: 'vocabulary-level',
       component: VocabList
     },
-    {
+    /* {
       path: '/quiz/',
       name: 'quiz',
       component: Quiz
+    }, */
+    {
+      // path: "*",
+      path: '/:catchAll(.*)',
+      name: 'all',
+      component: HomeView
     }
   ]
 })

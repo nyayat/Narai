@@ -256,7 +256,6 @@ export default {
       document.getElementById(button).style['color'] = '#d8315b'
 
       if (field == this.sort.field) {
-        console.log('change')
         this.sort.desc = !this.sort.desc
       } else {
         this.sort.field = field
@@ -300,21 +299,13 @@ export default {
   mounted() {
     if (sessionStorage.sort) {
       const savedSort = JSON.parse(sessionStorage.getItem('sort'))
-      console.log(savedSort)
       this.sort = savedSort
     }
   },
   created() {
     this.$watch(
       () => this.$route.params,
-      (toParams, previousParams) => {
-        console.log('toParams: ' + toParams)
-        console.log(toParams)
-        console.log('previousParams: ' + previousParams)
-        console.log(previousParams)
-        console.log(this.$route.params.opt)
-        console.log(this.$route.params.opt === undefined)
-      }
+      (toParams, previousParams) => {}
     )
   }
 }
