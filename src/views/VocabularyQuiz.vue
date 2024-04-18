@@ -8,18 +8,46 @@ import { ref } from 'vue'
 </script>
 
 <template>
-  <div>User {{ $route.params.opt }}</div>
+  <div class="container_list">
+    <div class="nav_level">
+      <div style="color: white">User {{ $route.params.opt }}</div>
+    </div>
 
-  <div>{{ count }} / {{ quiz.nb_question }}<br /><br /></div>
-  <div>Question : {{ quiz.questions[count] }}<br /><br /></div>
-  <div>Answer:{{ quiz.answers[count] }}<br /><br /></div>
-  <div>Answer:{{ quiz.sentences[count] }}<br /><br /></div>
-  <button @click="changeQuestion(false)" v-on:click="count = Math.max(0, count - 1)">
-    Arrière
-  </button>
-  <button @click="changeQuestion(false)" v-on:click="count = Math.min(quiz.nb_question, count + 1)">
-    Avant
-  </button>
+    <article class="container">
+      <!---->
+      <div class="show_container">
+        <div>{{ count }} / {{ quiz.nb_question }}<br /><br /></div>
+        <section class="content_div">
+          <h2>
+            <div>Question : {{ quiz.questions[count] }}<br /><br /></div>
+          </h2>
+          <div class="quiz_show">
+            <div class="meaning">a</div>
+            <div class="sentences">
+              <!-- class="scroll-container" -->
+            </div>
+          </div>
+        </section>
+      </div>
+      <!---->
+
+      <section class="details">
+        <!---->
+
+        <div>Answer:{{ quiz.answers[count] }}<br /><br /></div>
+        <div>Answer:{{ quiz.sentences[count] }}<br /><br /></div>
+        <button @click="changeQuestion(false)" v-on:click="count = Math.max(0, count - 1)">
+          Arrière
+        </button>
+        <button
+          @click="changeQuestion(false)"
+          v-on:click="count = Math.min(quiz.nb_question, count + 1)"
+        >
+          Avant
+        </button>
+      </section>
+    </article>
+  </div>
 </template>
 
 <script lang="ts">

@@ -10,6 +10,11 @@ body {
 * {
   box-sizing: border-box;
   font-family: 'DotGothic16';
+  /* color: $dark-purple; */
+}
+
+div,
+p {
   color: $dark-purple;
 }
 
@@ -142,4 +147,15 @@ header {
 .word {
   top: -25px;
   position: relative;
+}
+
+mark {
+  color: $white;
+  background-color: $red;
+  padding: 2px 7.5px;
+  border-radius: 3px;
+}
+
+.roma {
+  display: none;
 }

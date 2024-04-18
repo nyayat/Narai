@@ -38,15 +38,20 @@ export default {
       this.itemShowed = val
       console.log('val', val.word)
       let tmp = await _jisho.searchExemple(val.word)
+      console.log('tmp', tmp)
 
       const max = Math.min(tmp.length, 5)
       for (let i = 0; i < max; i++) {
-        console.log(tmp[i])
+        const parser = new DOMParser()
+        const jp_tmp = tmp[i].jp
+        const eng_tmp = tmp[i].eng
+        const html_jp = parser.parseFromString(jp_tmp, 'text/html')
+        const html_eng = parser.parseFromString(eng_tmp, 'text/html')
+        console.log(html_jp)
+        /* console.log(tmp[i].jp) */
         this.sentences.push({
-          english: tmp[i].english,
-          kanji: tmp[i].kanji,
-          kana: tmp[i].kana,
-          pieces: tmp[i].pieces
+          jp: jp_tmp,
+          eng: eng_tmp
         })
       }
       console.log('updatesjpw', this.sentences)

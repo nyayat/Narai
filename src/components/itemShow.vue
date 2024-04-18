@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import * as _jisho from '@/ts/Jisho'
+</script>
 
 <template>
   <div class="show_container">
@@ -11,14 +13,18 @@
         </ruby>
       </h2>
       <div class="vocabulary_show">
-        <div class="item">{{ itemShowed.meaning }}</div>
+        <div class="meaning">
+          <div class="card">{{ itemShowed.meaning }}</div>
+        </div>
         <div class="sentences">
           <!-- class="scroll-container" -->
-          <details v-for="item in sentences" :key="item" class="item card">
+          <details v-for="item in sentences" :key="item" class="card">
             <!-- -->
             <summary>exemple</summary>
-            {{ item.kanji }}<br /><br />
-            {{ item.english }}
+            <br />
+            <div v-html="item.jp"></div>
+            <br />
+            <div v-html="item.eng"></div>
           </details>
         </div>
       </div>
@@ -37,6 +43,7 @@ export default {
   watch: {
     itemShowed: async function (newVal, oldVal) {
       console.log('changement')
+      _jisho.search(this.itemShowed.word)
     }
   }
 }

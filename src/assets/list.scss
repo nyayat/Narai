@@ -55,6 +55,12 @@
   }
 }
 
+details {
+  mark {
+    color: white;
+  }
+}
+
 .nav_level {
   flex-basis: 100%;
   flex-grow: 1;
@@ -120,6 +126,7 @@ rt {
   border-bottom: 5px solid $dark-purple;
   border-right: 0px;
   padding-top: 0px;
+  max-height: 300px;
 }
 
 .details {
@@ -145,10 +152,29 @@ rt {
 .sentences {
   height: 120px;
   overflow: scroll;
+  scrollbar-color: $light-red transparent;
 
   .card {
     text-align: left;
     margin: 0px 20px;
+  }
+}
+
+.meaning {
+  scrollbar-color: $light-red transparent;
+  /* border-top: 1px solid $light-red;*/
+  margin: 10px 0px;
+  max-height: 50px;
+  overflow: scroll;
+  .card {
+    text-align: left;
+    margin: 0px 20px;
+
+    border-bottom: 0px solid $light-red;
+    border-top: 0px solid $light-red;
+    &::before {
+      border-top: 1px solid $light-red;
+    }
   }
 }
 
@@ -161,9 +187,13 @@ rt {
     overflow: scroll;
     height: 250px;
   }
+  .meaning {
+    max-height: 70px;
+  }
 
   .show_container {
     border-bottom: 0px;
     border-right: 5px solid $dark-purple;
+    max-height: 500px;
   }
 }

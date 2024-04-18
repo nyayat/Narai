@@ -1,7 +1,7 @@
 const url_vocab = 'https://jlpt-vocab-api.vercel.app/api/words'
 import * as JISHO from './Jisho.ts'
 
-let _vocab
+let _vocab: any[]
 function sortFurigana(
   a: { furigana: string; word: string },
   b: { furigana: string; word: string }
@@ -34,6 +34,15 @@ function clean() {
     })
 }
 
+async function cleanSentences() {
+  console.log('cleaaaaaan sentences')
+  for (let i = 0; i < _vocab.length; i++) {
+    _vocab[i].sentences = await JISHO.searchExemple(_vocab[i].word)
+  }
+  console.log(_vocab[0].sentences)
+  return _vocab
+}
+
 async function allVocabulary() {
   //jlpt-vocab-api.vercel.app/api/words/all
   const url_level = url_vocab + '/all'
@@ -43,6 +52,7 @@ async function allVocabulary() {
   _vocab = json.sort(sortFurigana)
   _vocab.shift()
   _vocab = clean()
+  /* _vocab = await cleanSentences() */
 
   return _vocab
 }
